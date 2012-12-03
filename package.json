@@ -1,0 +1,15 @@
+{
+  "name": "grabber",
+  "description": "desc",
+  "author": "virgiled",
+  "version": "0.0.1",
+  "dependencies": {
+      "request": "latest",
+      "mkdirp": "latest",
+      "jsdom": "latest",
+      "iconv": "latest",
+      "mongodb":  "latest",
+      "underscore":  "latest",
+      "nodemailer": "latest"
+  }
+}
