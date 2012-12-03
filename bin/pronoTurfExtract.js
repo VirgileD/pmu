@@ -10,7 +10,7 @@ process.env.TZ = 'GMT';
 var date = misc.getDate();;
 console.log('extract pronoturf pronos for: ' + date);
 
-var baseDir = __dirname+'/..';
+var baseDir = __dirname+'/../datas/';
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/pronoTurf";
 
 fs.readFile(rawDir+'/pronos', function(errReadFile,data){

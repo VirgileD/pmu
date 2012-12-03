@@ -10,7 +10,7 @@ process.env.TZ = 'GMT';
 var date = misc.getDate();
 console.log('grab pronoturf pronos for: ' + date);
 
-var baseDir = __dirname+'/..';
+var baseDir = __dirname+'/../datas/';
 var baseUri = "http://www.pronostics-turf.info/courses/archives.php";
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/pronoTurf";
 var data = "a&Confirne=OK&text="+ date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0]

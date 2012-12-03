@@ -8,7 +8,7 @@ process.env.TZ = 'GMT';
 var date = misc.getDate();
 console.log('grab geny results for: ' + date);
 
-var baseDir = __dirname+'/..';
+var baseDir = __dirname+'/../datas/';
 var baseUri = "http://www.geny.com/";
 var summaryPage = "reunions-courses-pmu?date=";//2011-10-01
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/geny";

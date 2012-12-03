@@ -9,7 +9,7 @@ process.env.TZ = 'GMT';
 var date = misc.getDate();
 console.log('extract geny results for: ' + date);
 
-var baseDir = __dirname+'/..';
+var baseDir = __dirname+'/../datas/';
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/geny";
 
 fs.readFile(rawDir+'/rapports', function(errReadFile,data){
