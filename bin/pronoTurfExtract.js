@@ -1,6 +1,5 @@
-var request = require('request'),
-  fs = require('fs'),
-  jsdom = require('jsdom'),
+var fs = require('fs'),
+  cheerio = require('cheerio'),
   mkdirp = require('mkdirp').mkdirp,
   misc = require('../lib/misc'),
   _ = require('underscore');
@@ -18,34 +17,31 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
     console.error("Could not readFile file: %s", errReadFile);
     process.exit(1);
   }
-  jsdom.env({ html: data.toString(), scripts: ['http://code.jquery.com/jquery-1.6.min.js']}, function(errJsDom, window){
-    //Use jQuery just as in a regular HTML page
-    var $ = window.jQuery;
-    var pronos = {};
-    $("span.style135:last p:has(> strong)").each(function(index) {
-        var name = $(this).text().split(':')[0].replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
-        if(name!=='') {
-            var prono = $(this).text().split(':')[1].replace(/\s*/gm,'').split('-');
-            var isProno=true;
-            prono.forEach(function(elem) {
-                if(isNaN(elem)) {
-                    isProno=false;
-                }
-            });
-            if(isProno) {
-                //console.log(name+": "+prono);
-                if(!(/^les plus cit/.test(name) || /^chevaux \[valeur/.test(name))) {
-                    if(prono.length===8) {    
-                        pronos[misc.sanitizeKey(name)] = prono;
-                    } else {
-                        console.log('removing ' + name + ' prono with '+prono.length+' length');
-                    }
-                }
-            }
+  var $ = cheerio.load(data);
+  var pronos = {};
+  $("span.style135").last().find('p').each(function(index) {
+    var name = $(this).text().split(':')[0].replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+    if(name!=='') {
+      var prono = $(this).text().split(':')[1].replace(/\s*/gm,'').split('-');
+      var isProno=true;
+      prono.forEach(function(elem) {
+        if(isNaN(elem)) {
+          isProno=false;
         }
-    });
-    misc.insertPronos(date, pronos);
-    console.log(misc.dump(pronos));
+      });
+      if(isProno) {
+        //console.log(name+": "+prono);
+        if(!(/^les plus cit/.test(name) || /^chevaux \[valeur/.test(name))) {
+          if(prono.length===8) {    
+              pronos[misc.sanitizeKey(name)] = prono;
+          } else {
+              console.log('removing ' + name + ' prono with '+prono.length+' length');
+          }
+        }
+      }
+    }
   });
+  misc.insertPronos(date, pronos);
+  console.log(misc.dump(pronos));
 });
 
