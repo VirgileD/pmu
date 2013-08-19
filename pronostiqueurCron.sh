@@ -20,6 +20,6 @@ node ./bin/genyResultsExtract.js $1>> logs/grabber.$logDate.log
 node ./bin/genyExtract.js $1>> logs/grabber.$logDate.log
 node ./bin/pronoTurfExtract.js $1>> logs/grabber.$logDate.log
 
-node ./bin/sendReport.js logs/grabber.$logDate.log
+node ./bin/sendReport.js logs/grabber.$logDate.log $logDate
 
 
