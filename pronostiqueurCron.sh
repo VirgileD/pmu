@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
+
+NODE=/home/virgile/nvm/v0.8.1/bin/node
 
 if [  -n "$1" ]
 then
@@ -11,15 +14,15 @@ else
     processDate=''
 fi
 
-cd /home/virgiled/Documents/geek/workspace/pronostiqueur
-node ./bin/genyGrabber.js $1>> logs/grabber.$logDate.log
-node ./bin/pronoTurfGrabber.js $1>> logs/grabber.$logDate.log
-node ./bin/genyResultsGrabber.js $1>> logs/grabber.$logDate.log
+cd /home/virgile/workspace/pmu
+$NODE ./bin/genyGrabber.js $1>> logs/grabber.$logDate.log
+$NODE ./bin/pronoTurfGrabber.js $1>> logs/grabber.$logDate.log
+$NODE ./bin/genyResultsGrabber.js $1>> logs/grabber.$logDate.log
 
-node ./bin/genyResultsExtract.js $1>> logs/grabber.$logDate.log
-node ./bin/genyExtract.js $1>> logs/grabber.$logDate.log
-node ./bin/pronoTurfExtract.js $1>> logs/grabber.$logDate.log
+$NODE ./bin/genyResultsExtract.js $1>> logs/grabber.$logDate.log
+$NODE ./bin/genyExtract.js $1>> logs/grabber.$logDate.log
+$NODE ./bin/pronoTurfExtract.js $1>> logs/grabber.$logDate.log
 
-node ./bin/sendReport.js logs/grabber.$logDate.log $logDate
+$NODE ./bin/sendReport.js logs/grabber.$logDate.log $logDate
 
 
