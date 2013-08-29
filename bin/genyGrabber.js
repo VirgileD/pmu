@@ -2,8 +2,7 @@ var request = require('request').defaults(process.env.http_proxy ? { 'proxy': pr
   fs = require('fs'),
   cheerio = require('cheerio'),
   mkdirp = require('mkdirp').mkdirp,
-  misc = require('../lib/misc'),
-  jquery = fs.readFileSync("./jquery.js", "utf-8");
+  misc = require('../lib/misc');
 
 process.env.TZ = 'GMT';
 

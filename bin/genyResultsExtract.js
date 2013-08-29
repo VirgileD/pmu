@@ -21,7 +21,7 @@ fs.readFile(rawDir+'/rapports', function(errReadFile,data){
   $("table#arrivees").first().find("tr").each(function(index) {
       if(index<=5&&index>=1) {
           var chev = $(this);
-          arrivee.push(chev.find("td").eq(1).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase());
+          arrivee.push(parseInt(chev.find("td").eq(1).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase(), 10));
       }
   });
   console.log("arrivee: " + arrivee);
