@@ -12,11 +12,11 @@ console.log('grab pronoturf pronos for: ' + date);
 var baseDir = __dirname+'/../datas/';
 var baseUri = "http://www.pronostics-turf.info/courses/archives.php";
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/pronoTurf";
-var data = "a&Confirne=OK&text="+ date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0]
+var data = "a&Confirne=OK&text="+ date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0];
 
 mkdirp(rawDir, 0777, function (errorMkdirp) {
   if (errorMkdirp) {
-    console.error(errorMkdirp)
+    console.error(errorMkdirp);
     process.exit(1);
   } else {
     if(!fs.existsSync(rawDir+'/pronos')) {
@@ -27,9 +27,9 @@ mkdirp(rawDir, 0777, function (errorMkdirp) {
           body: data,
           encoding: 'binary'
       }, function (errRequest, resp, body) {
-        if (!errRequest && resp.statusCode == 200) {
+        if (!errRequest && resp.statusCode === 200) {
           body = new Buffer(body, 'binary');
-          conv = new iconv.Iconv('iso-8859-1', 'utf8');
+          var conv = new iconv.Iconv('iso-8859-1', 'utf8');
           body = conv.convert(body).toString();
           fs.writeFile(rawDir+'/pronos', body ,function(errWriteFile) {
             if(errWriteFile) {

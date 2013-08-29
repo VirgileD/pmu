@@ -21,7 +21,7 @@ fs.readFile(rawDir+'/rapports', function(errReadFile,data){
   $("table#arrivees").first().find("tr").each(function(index) {
       if(index<=5&&index>=1) {
           var chev = $(this);
-          arrivee.push(chev.find("td").eq(1).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase());
+          arrivee.push(parseInt(chev.find("td").eq(1).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase(), 10));
       }
   });
   console.log("arrivee: " + arrivee);
@@ -67,6 +67,17 @@ fs.readFile(rawDir+'/rapports', function(errReadFile,data){
       if(rapport!=='') {
         //console.log(rapportName.split(" ").join("")+': '+misc.getAmount(rapport));
         gains[misc.getRapportShortName(rapportName)] = misc.getAmount(rapport);
+      }
+    }
+  });
+  $("table#lesSolos td:contains('PMU') table tr").each(function(index) {
+    if(index!==0) { // not the first line
+      //console.log($(this).text().replace(/\s/gm,''));
+      var rapportName = $(this).find("td").eq(0).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      var rapport = $(this).find("td").eq(2).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      if(rapport!=='') {
+        console.log(rapportName.split(" ").join("")+': '+misc.getAmount(rapport));
+        //gains[misc.getRapportShortName(rapportName)] = misc.getAmount(rapport);
       }
     }
   });

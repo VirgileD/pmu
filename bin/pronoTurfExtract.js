@@ -6,7 +6,7 @@ var fs = require('fs'),
 
 process.env.TZ = 'GMT';
 
-var date = misc.getDate();;
+var date = misc.getDate();
 console.log('extract pronoturf pronos for: ' + date);
 
 var baseDir = __dirname+'/../datas/';
@@ -23,21 +23,11 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
     var name = $(this).text().split(':')[0].replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
     if(name!=='') {
       var prono = $(this).text().split(':')[1].replace(/\s*/gm,'').split('-');
-      var isProno=true;
-      prono.forEach(function(elem) {
-        if(isNaN(elem)) {
-          isProno=false;
-        }
-      });
-      if(isProno) {
-        //console.log(name+": "+prono);
-        if(!(/^les plus cit/.test(name) || /^chevaux \[valeur/.test(name))) {
-          if(prono.length===8) {    
-              pronos[misc.sanitizeKey(name)] = prono;
-          } else {
-              console.log('removing ' + name + ' prono with '+prono.length+' length');
-          }
-        }
+      prono=misc.sanitizeProno(prono);
+      if(prono.length===8&&!/^les plus cit/.test(name)&&!/^chevaux \[valeur/.test(name)&&prono.indexOf(0)===-1) {
+        pronos[misc.sanitizeKey(name)] = prono;
+      } else {
+        console.log('removing ' + name + ' prono with '+prono);
       }
     }
   });

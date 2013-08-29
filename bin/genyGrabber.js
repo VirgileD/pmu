@@ -2,8 +2,7 @@ var request = require('request').defaults(process.env.http_proxy ? { 'proxy': pr
   fs = require('fs'),
   cheerio = require('cheerio'),
   mkdirp = require('mkdirp').mkdirp,
-  misc = require('../lib/misc'),
-  jquery = fs.readFileSync("./jquery.js", "utf-8");
+  misc = require('../lib/misc');
 
 process.env.TZ = 'GMT';
 
@@ -17,14 +16,14 @@ var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/'
 
 mkdirp(rawDir, 0777, function (errorMkdirp) {
   if (errorMkdirp) {
-    console.error(errorMkdirp)
+    console.error(errorMkdirp);
     process.exit(1);
   } else {
     if(!fs.existsSync(rawDir+'/pronos')) {
       //console.log("Get summary page... " + baseUri+summaryPage+date);
       console.log(process.env.http_proxy);
       request(baseUri+summaryPage+date, function (errRequest, resp, body) {
-        if (!errRequest && resp.statusCode == 200) {
+        if (!errRequest && resp.statusCode === 200) {
           fs.writeFile(rawDir+'/summary', body, function(errWriteFile) {
             if(errWriteFile) {
               console.log(errWriteFile);
