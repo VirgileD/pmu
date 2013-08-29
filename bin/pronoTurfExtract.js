@@ -6,7 +6,7 @@ var fs = require('fs'),
 
 process.env.TZ = 'GMT';
 
-var date = misc.getDate();;
+var date = misc.getDate();
 console.log('extract pronoturf pronos for: ' + date);
 
 var baseDir = __dirname+'/../datas/';
