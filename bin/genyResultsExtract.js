@@ -70,6 +70,17 @@ fs.readFile(rawDir+'/rapports', function(errReadFile,data){
       }
     }
   });
+  $("table#lesSolos td:contains('PMU') table tr").each(function(index) {
+    if(index!==0) { // not the first line
+      //console.log($(this).text().replace(/\s/gm,''));
+      var rapportName = $(this).find("td").eq(0).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      var rapport = $(this).find("td").eq(2).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      if(rapport!=='') {
+        console.log(rapportName.split(" ").join("")+': '+misc.getAmount(rapport));
+        //gains[misc.getRapportShortName(rapportName)] = misc.getAmount(rapport);
+      }
+    }
+  });
   misc.insertResults(date, gains, arrivee);
   console.log(misc.dump({ arrivee: arrivee, gains: gains }));
 });
