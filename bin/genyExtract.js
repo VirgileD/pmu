@@ -30,7 +30,7 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
   console.log('name >'+name+'<');
   var nbPartants = $("div#dt_partants").find('tr').last().find('td').first().text();
   console.log('nbPartants >'+nbPartants+'<');
-  var statsChev = {};
+  var odds = {};
   $("table#tableau_partants tbody").find('tr').each(function(index) {
     var chev = $(this).find('td').first().text();
     var domObj=$(this).find('td').last();
@@ -39,38 +39,38 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
     var refCote=parseFloat(domObj.text());
     domObj=domObj.prev();
     var valeur=parseFloat(domObj.text());
-    statsChev[chev] = { lastCote: lastCote, refCote: refCote, valeur: valeur };
+    odds[chev] = {refCote: refCote,lastCote: lastCote,valeur: valeur};
   });
-  console.log(misc.dump(statsChev));
+  console.log(misc.dump(odds));
   var pronos = {};
   $("div#selectionsPresse table").first().find('td').each(function(index) {
-      if($(this).text().replace(/\s*/gm,'')!=='') {
-          var name = $(this).find("div.phd").text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
-          var prono = $(this).find("div.pbd").text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').split(/\s*-\s*/);
-          prono=misc.sanitizeProno(prono);
-          if(prono.length===8&&prono.indexOf(0)===-1) {
-              pronos[misc.sanitizeKey(name)] = prono;
-          } else {
-              console.log('removing ' + name + ' prono: '+pronos[misc.sanitizeKey(name)]);
-          }
-          //console.log(name+' :'+prono);
-      }
-  });
-  $("div.redac").each(function(index) {
-      var name = $(this).find("div.entete").first().text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
-      var prono = [];
-      $(this).find("div.num").each(function(index) {
-          prono.push($(this).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase());
-      });
+    if($(this).text().replace(/\s*/gm,'')!=='') {
+      var name = $(this).find("div.phd").text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      var prono = $(this).find("div.pbd").text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').split(/\s*-\s*/);
       prono=misc.sanitizeProno(prono);
       if(prono.length===8&&prono.indexOf(0)===-1) {
-          pronos[misc.sanitizeKey(name)] = prono;
+        pronos[misc.sanitizeKey(name)] = prono;
       } else {
-          console.log('removing ' + name + ' prono with '+prono.length+' length');
+        console.log('removing ' + name + ' prono: '+pronos[misc.sanitizeKey(name)]);
       }
-      //console.log(name+': '+prono);
+      //console.log(name+' :'+prono);
+    }
   });
-  misc.insertPronos(date, pronos, { statsChev: statsChev, name: name, nbPartants: nbPartants, location: location});
+  $("div.redac").each(function(index) {
+    var name = $(this).find("div.entete").first().text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+    var prono = [];
+    $(this).find("div.num").each(function(index) {
+      prono.push($(this).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase());
+    });
+    prono=misc.sanitizeProno(prono);
+    if(prono.length===8&&prono.indexOf(0)===-1) {
+      pronos[misc.sanitizeKey(name)] = prono;
+    } else {
+      console.log('removing ' + name + ' prono with '+prono.length+' length');
+    }
+    //console.log(name+': '+prono);
+  });
   console.log(misc.dump(pronos));
+  misc.insertPronos(date, pronos, { odds: odds, name: name, nbPartants: nbPartants, location: location});
 });
 
