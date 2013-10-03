@@ -28,18 +28,15 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
   console.log('location >'+location+'<');
   var name = $("div.nomCourse").first().text().split('-')[1].replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
   console.log('name >'+name+'<');
-  var nbPartants = $("div#dt_partants").find('tr').last().find('td').first().text();
+  var nbPartants = parseInt($("div#dt_partants").find('tr').last().find('td').first().text(),10);
   console.log('nbPartants >'+nbPartants+'<');
   var statsChev = {};
   $("table#tableau_partants tbody").find('tr').each(function(index) {
     var chev = $(this).find('td').first().text();
     var domObj=$(this).find('td').last();
-    var lastCote=parseFloat(domObj.text());
     domObj=domObj.prev();
     var refCote=parseFloat(domObj.text());
-    domObj=domObj.prev();
-    var valeur=parseFloat(domObj.text());
-    statsChev[chev] = { lastCote: lastCote, refCote: refCote, valeur: valeur };
+    statsChev[chev] = refCote;
   });
   console.log(misc.dump(statsChev));
   var pronos = {};
@@ -70,7 +67,7 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
       }
       //console.log(name+': '+prono);
   });
-  misc.insertPronos(date, pronos, { statsChev: statsChev, name: name, nbPartants: nbPartants, location: location});
+  misc.insertPronos(date, pronos, { refCote: statsChev, name: name, nbPartants: nbPartants, location: location});
   console.log(misc.dump(pronos));
 });
 

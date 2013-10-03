@@ -73,11 +73,23 @@ fs.readFile(rawDir+'/rapports', function(errReadFile,data){
   $("table#lesSolos td:contains('PMU') table tr").each(function(index) {
     if(index!==0) { // not the first line
       //console.log($(this).text().replace(/\s/gm,''));
-      var rapportName = $(this).find("td").eq(0).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
+      var rapportName = $(this).find("td").eq(0).find('div').next().text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase().split(/\s/).join("");
       var rapport = $(this).find("td").eq(2).text().replace(/^\s*/gm,'').replace(/\s*$/gm,'').toLowerCase();
       if(rapport!=='') {
-        console.log(rapportName.split(" ").join("")+': '+misc.getAmount(rapport));
-        //gains[misc.getRapportShortName(rapportName)] = misc.getAmount(rapport);
+        if(rapportName=="gagnant") {
+          gains["sg"] = misc.getAmount(rapport);
+        } else {
+          // placés
+          if(gains["sp1"]) {
+            if(gains["sp2"]) {
+              gains["sp3"] = misc.getAmount(rapport);
+            } else {
+              gains["sp2"] = misc.getAmount(rapport);
+            }
+          } else {
+            gains["sp1"] = misc.getAmount(rapport);
+          }
+        }
       }
     }
   });
