@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% messages.forEach(function(key) {
+    %>
+        <li>
+            <%= key %>
+        </li>
+    <% }) %>
+  </body>
+</html>

@@ -30,7 +30,7 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
   console.log('name >'+name+'<');
   var nbPartants = parseInt($("div#dt_partants").find('tr').last().find('td').first().text(),10);
   console.log('nbPartants >'+nbPartants+'<');
-  var odds = {};
+  var statsChev = {};
   $("table#tableau_partants tbody").find('tr').each(function(index) {
     var chev = $(this).find('td').first().text();
     var domObj=$(this).find('td').last();
@@ -38,7 +38,7 @@ fs.readFile(rawDir+'/pronos', function(errReadFile,data){
     var refCote=parseFloat(domObj.text());
     statsChev[chev] = refCote;
   });
-  console.log(misc.dump(odds));
+  console.log(misc.dump(statsChev));
   var pronos = {};
   $("div#selectionsPresse table").first().find('td').each(function(index) {
     if($(this).text().replace(/\s*/gm,'')!=='') {

@@ -18,7 +18,7 @@ mkdirp(rawDir, 0777, function (errorMkdirp) {
     console.error(errorMkdirp);
     process.exit(1);
   } else {
-    if(!fs.existsSync(rawDir+'/rapports')) {
+    //if(!fs.existsSync(rawDir+'/rapports')) {
       console.log("Get summary page... " + baseUri+summaryPage+date);
       request(baseUri+summaryPage+date, function (errRequest, resp, body) {
         if (!errRequest && resp.statusCode === 200) {
@@ -35,9 +35,9 @@ mkdirp(rawDir, 0777, function (errorMkdirp) {
           });
         }
       });
-    } else {
-      console.log(rawDir+'/rapports already exists');
-    }
+    //} else {
+    //  console.log(rawDir+'/rapports already exists');
+    //}
   }
 });
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>setimages</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>setimages</h1>
+    <form name="setimages" id="setimages" method="post" action="/setimages">
+        <input type="hidden" id="date" name="date" value="<%= date %>"/>
+        <% for(var i=0; i<imgArray.length; i++) {
+            var id = imgArray[i].split('.')[0];
+            %>
+                <li>
+                    <img src="<%= path %><%= imgArray[i] %>"/><input type="text" id="<%= id %>" name="<%= id %>"/>
+                </li>
+        <% } %>
+        <input type="submit"/>
+    </form>
+  </body>
+</html>
