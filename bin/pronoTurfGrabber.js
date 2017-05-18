@@ -1,8 +1,10 @@
+'use strict';
 var request = require('request').defaults(process.env.http_proxy ? { 'proxy': process.env.http_proxy }: {}),
   fs = require('fs'),
   iconv = require('iconv'),
   mkdirp = require('mkdirp').mkdirp,
-  misc = require('../lib/misc');
+  misc = require('../lib/misc'),
+  conf = require('../lib/conf');
 
 process.env.TZ = 'GMT';
 
@@ -13,14 +15,14 @@ var baseDir = __dirname+'/../datas/';
 var baseUri = "http://www.pronostics-turf.info/courses/archives.php";
 var rawDir = baseDir + '/' + date.split('-')[0] + '/' + date.split('-')[1] + '/' + date.split('-')[2] + "/pronoTurf";
 var months = [ "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre" ]; 
-var data = "a&Confirne=OK&text="+ date.split('-')[2] + ' ' + months[date.split('-')[1]-1] + ' ' + date.split('-')[0];
+var data = "a="+conf.pronoturf.passw+"&Confirne=OK&text="+ date.split('-')[2] + ' ' + months[date.split('-')[1]-1] + ' ' + date.split('-')[0];
 
-mkdirp(rawDir, 0777, function (errorMkdirp) {
+mkdirp(rawDir,function (errorMkdirp) {
   if (errorMkdirp) {
     console.error(errorMkdirp);
     process.exit(1);
   } else {
-    //if(!fs.existsSync(rawDir+'/pronos')) {
+    if(!fs.existsSync(rawDir+'/pronos')) {
       console.log("Get pronos page... " + baseUri + '('+data+')');
       request.post({
           headers: {'content-type' : 'application/x-www-form-urlencoded'},
@@ -43,9 +45,9 @@ mkdirp(rawDir, 0777, function (errorMkdirp) {
           process.exit(1);
         }
       });
-    //} else {
-      //console.log(rawDir+'/pronos already exists');
-    //}
+    } else {
+      console.log(rawDir+'/pronos already exists');
+    }
   }
 });
 

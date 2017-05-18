@@ -1,12 +1,10 @@
 #!/usr/bin/env sh
 
 
-NODE=/home/virgile/nvm/v0.8.1/bin/node
+NODE=node
 
 logDate=`date +%Y-%m-%d`
 echo $logDate
-
-cd /home/virgile/workspace/pmu
 
 $NODE ./bin/genyGrabber.js $logDate > logs/report.$logDate.txt 2>&1
 $NODE ./bin/genyExtract.js $logDate >> logs/report.$logDate.txt 2>&1

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 
-NODE=/home/virgile/nvm/v0.8.1/bin/node
+NODE=node
 
 if [  -n "$1" ]
 then
@@ -14,15 +14,15 @@ else
     processDate=''
 fi
 
-cd /home/virgile/workspace/pmu
+#cd /home/virgile/projects/pmu 
 $NODE ./bin/genyGrabber.js $processDate>> logs/grabber.$logDate.log
 $NODE ./bin/pronoTurfGrabber.js $processDate>> logs/grabber.$logDate.log
 $NODE ./bin/genyResultsGrabber.js $processDate>> logs/grabber.$logDate.log
 
 $NODE ./bin/genyResultsExtract.js $processDate>> logs/grabber.$logDate.log
-$NODE ./bin/genyExtract.js $processDate>> logs/grabber.$logDate.log
 $NODE ./bin/pronoTurfExtract.js $processDate>> logs/grabber.$logDate.log
+$NODE ./bin/genyExtract.js $processDate>> logs/grabber.$logDate.log
 
-$NODE ./bin/sendReport.js logs/grabber.$logDate.log $logDate
+#$NODE ./bin/sendReport.js logs/grabber.$logDate.log $logDate
 
 

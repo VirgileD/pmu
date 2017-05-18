@@ -1,3 +1,4 @@
+'use strict';
 var misc = require("../lib/misc"),
       fs = require('fs');
 
